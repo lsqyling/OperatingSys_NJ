@@ -3,9 +3,10 @@
 #include <unistd.h>
 
 typedef bool wire; // Wires
-typedef struct {
-  bool value;
-  wire *in, *out;
+typedef struct
+{
+    bool value;
+    wire *in, *out;
 } reg; // Flip-flops
 
 // Circuit constructs
@@ -27,26 +28,34 @@ reg b0 = {.in = &Y1, .out = &Y};
 
 
 // Dump wire values at the end of each cycle
-void end_cycle() {
-  PRINT(A); PRINT(B); PRINT(C); PRINT(D);
-  PRINT(E); PRINT(F); PRINT(G);
+void end_cycle()
+{
+    PRINT(A);
+    PRINT(B);
+    PRINT(C);
+    PRINT(D);
+    PRINT(E);
+    PRINT(F);
+    PRINT(G);
 }
 
 
-int main() {
-  CLOCK {
-    // 1. Wire network specification (logic gates)
-    X1 = AND(NOT(X), Y);
-    Y1 = NOT(OR(X, Y));
-    A = D = E = NOT(Y);
-    B = 1;
-    C = NOT(X);
-    F = Y1;
-    G = X;
-    // 2. Lock data in flip-flops and propagate output to wires
-    b0.value = *b0.in;
-    b1.value = *b1.in;
-    *b0.out = b0.value;
-    *b1.out = b1.value;
-  }
+int main()
+{
+    CLOCK
+    {
+        // 1. Wire network specification (logic gates)
+        X1 = AND(NOT(X), Y);
+        Y1 = NOT(OR(X, Y));
+        A = D = E = NOT(Y);
+        B = 1;
+        C = NOT(X);
+        F = Y1;
+        G = X;
+        // 2. Lock data in flip-flops and propagate output to wires
+        b0.value = *b0.in;
+        b1.value = *b1.in;
+        *b0.out = b0.value;
+        *b1.out = b1.value;
+    }
 }
